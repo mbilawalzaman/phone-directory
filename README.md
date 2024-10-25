@@ -1,8 +1,23 @@
-# React + Vite
+# Phone Directory
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple phone directory application built with React and Zustand for state management. This app allows users to add, view, and delete contacts, providing an easy way to manage phone numbers.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Add new contacts with names and phone numbers
+- View a list of all contacts
+- Delete contacts from the list
+- Responsive design using Tailwind CSS
+
+## Technologies Used
+
+- **React**: JavaScript library for building user interfaces
+- **Zustand**: State management library for React
+- **Tailwind CSS**: Utility-first CSS framework for styling
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/phone-directory.git
