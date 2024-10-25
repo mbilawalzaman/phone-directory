@@ -6,19 +6,29 @@ import "./App.css";
 
 function App() {
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const { contacts, addContact, deleteContact, clearContacts } =
+  const [contactToUpdate, setContactToUpdate] = useState(null);
+  const { contacts, addContact, deleteContact, clearContacts, updateContact } =
     useContactStore();
 
-  const handleClearContacts = () => {
-    clearContacts(); // Call the clearContacts function from your Zustand store
+  const handleUpdateContact = (index) => {
+    setContactToUpdate({ index, contact: contacts[index] });
+    setIsFormVisible(true);
+  };
+
+  const handleFormSubmit = (newContact) => {
+    if (contactToUpdate) {
+      updateContact(contactToUpdate.index, newContact);
+    } else {
+      addContact(newContact);
+    }
+    setIsFormVisible(false);
+    setContactToUpdate(null);
   };
 
   return (
     <div className="bg-gray-100 p-4">
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-2xl font-bold mb-6">Phone Directory</h1>
-      </div>
-      <div className="space-x-10">
         <button
           onClick={() => setIsFormVisible(true)}
           className="bg-blue-500 text-white p-2 rounded mb-4"
@@ -26,14 +36,18 @@ function App() {
           Add Contact
         </button>
         <button
-          onClick={() => handleClearContacts(true)}
+          onClick={() => clearContacts()}
           className="bg-red-500 text-white p-2 rounded mb-4"
         >
           Reset
         </button>
       </div>
 
-      <ContactList contacts={contacts} deleteContact={deleteContact} />
+      <ContactList
+        contacts={contacts}
+        deleteContact={deleteContact}
+        openUpdateModal={handleUpdateContact}
+      />
 
       {/* Modal */}
       {isFormVisible && (
@@ -47,7 +61,10 @@ function App() {
               &times;
             </button>
 
-            <ContactForm addContact={addContact} />
+            <ContactForm
+              addContact={handleFormSubmit}
+              existingContact={contactToUpdate ? contactToUpdate.contact : null}
+            />
           </div>
         </div>
       )}
