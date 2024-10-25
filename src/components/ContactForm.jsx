@@ -5,8 +5,41 @@ function ContactForm({ addContact, existingContact }) {
   const [phone, setPhone] = useState(
     existingContact ? existingContact.phone : ""
   );
-  const [error, setError] = useState(""); // State for error messages
-  const [success, setSuccess] = useState(""); // State for success message
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const formatPhoneNumber = (value) => {
+    const cleaned = value.replace(/\D/g, "");
+    if (cleaned.length > 4) {
+      return cleaned.slice(0, 4) + "-" + cleaned.slice(4, 11);
+    }
+    return cleaned;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name || !phone) {
+      setError("Please fill in both fields.");
+      return;
+    } else if (phone.replace(/-/g, "").length < 11) {
+      setError("Please ensure the phone number is valid.");
+      return;
+    }
+    setError("");
+    addContact({ name, phone });
+    setSuccess("Contact added successfully!");
+    setName("");
+    setPhone("");
+
+    setTimeout(() => {
+      setSuccess("");
+    }, 3000);
+  };
+
+  const handlePhoneChange = (e) => {
+    const formattedPhone = formatPhoneNumber(e.target.value);
+    setPhone(formattedPhone);
+  };
 
   useEffect(() => {
     if (existingContact) {
@@ -15,37 +48,13 @@ function ContactForm({ addContact, existingContact }) {
     }
   }, [existingContact]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!name || !phone) {
-      setError("Please fill in both fields.");
-      return;
-    }
-    setError(""); // Clear error message if inputs are valid
-
-    addContact({ name, phone });
-    setSuccess(
-      existingContact
-        ? "Contact updated successfully!"
-        : "Contact added successfully!"
-    );
-    setName("");
-    setPhone("");
-
-    // Clear success message after a few seconds
-    setTimeout(() => {
-      setSuccess("");
-    }, 3000);
-  };
-
   return (
     <div className="border rounded-lg shadow-lg p-6 bg-white max-w-md mx-auto">
-      <h2 className="text-xl font-semibold mb-4">
-        {existingContact ? "Update Contact" : "Add New Contact"}
-      </h2>
+      <h2 className="text-xl font-semibold mb-4">Add New Contact</h2>
       <form onSubmit={handleSubmit}>
         {error && <div className="text-red-600 mb-4">{error}</div>}
         {success && <div className="text-green-600 mb-4">{success}</div>}
+
         <div className="mb-4">
           <label htmlFor="name" className="block text-sm font-medium mb-1">
             Name
@@ -57,7 +66,6 @@ function ContactForm({ addContact, existingContact }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            required
           />
         </div>
         <div className="mb-4">
@@ -69,23 +77,16 @@ function ContactForm({ addContact, existingContact }) {
             id="phone"
             placeholder="Enter phone number"
             value={phone}
-            onChange={(e) => {
-              const value = e.target.value;
-              // Allow only digits and limit to 10 characters
-              if (/^\d{0,10}$/.test(value)) {
-                setPhone(value);
-              }
-            }}
+            onChange={handlePhoneChange}
             className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             required
-            maxLength="10" // Limits the input to 10 characters
           />
         </div>
         <button
           type="submit"
           className="bg-blue-600 text-white p-2 rounded-md w-full hover:bg-blue-700 transition"
         >
-          {existingContact ? "Update Contact" : "Add Contact"}
+          Add Contact
         </button>
       </form>
     </div>
