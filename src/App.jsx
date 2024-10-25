@@ -12,16 +12,30 @@ function App() {
     <div className="bg-gray-100 p-4">
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-2xl font-bold mb-6">Phone Directory</h1>
-        {!isFormVisible && (
-          <button
-            onClick={() => setIsFormVisible(true)}
-            className="bg-blue-500 text-white p-2 rounded mb-4"
-          >
-            Add Contact
-          </button>
-        )}
-        {isFormVisible && <ContactForm addContact={addContact} />}
+        <button
+          onClick={() => setIsFormVisible(true)}
+          className="bg-blue-500 text-white p-2 rounded mb-4"
+        >
+          Add Contact
+        </button>
+
         <ContactList contacts={contacts} deleteContact={deleteContact} />
+
+        {/* Modal */}
+        {isFormVisible && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md relative">
+              <button
+                onClick={() => setIsFormVisible(false)}
+                className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 text-2xl"
+                aria-label="Close"
+              >
+                &times;
+              </button>
+              <ContactForm addContact={addContact} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
