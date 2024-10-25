@@ -15,6 +15,10 @@ A simple phone directory application built with React and Zustand for state mana
 - **Zustand**: State management library for React
 - **Tailwind CSS**: Utility-first CSS framework for styling
 
+## Live Demo
+
+Check out the live demo of the app [here](https://react-phone-directory.netlify.app/).
+
 ## Installation
 
 1. Clone the repository:
