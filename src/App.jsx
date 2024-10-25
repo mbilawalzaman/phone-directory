@@ -28,7 +28,9 @@ function App() {
   return (
     <div className="bg-gray-100 p-4">
       <div className="flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-bold mb-6">Phone Directory</h1>
+        <h1 className="text-2xl font-bold mb-6">React - Phone Directory</h1>
+      </div>
+      <div className="space-x-10 flex justify-center items-center">
         <button
           onClick={() => setIsFormVisible(true)}
           className="bg-blue-500 text-white p-2 rounded mb-4"
@@ -42,7 +44,6 @@ function App() {
           Reset
         </button>
       </div>
-
       <ContactList
         contacts={contacts}
         deleteContact={deleteContact}
